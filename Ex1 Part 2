@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Dec 26 17:18:49 2017
+
+@author: rajen
+"""
+import numpy as np
+
+data = np.loadtxt('D:\Coursera\Machine Learning\machine-learning-ex1\machine-learning-ex1\ex1\ex1data2.txt', delimiter=",")
+X = data[:, 0:2]
+y = data[:, 2]
+m = len(y)
+
+# Add intercept term to X
+X = np.hstack((np.ones((m, 1)), X))
+
+def normal_eqn(X, y):
+    """
+    Computes the closed-form solution to linear regression.
+
+    Parameters
+    ----------
+    X : ndarray, shape (n_samples, n_features)
+        Training data, where n_samples is the number of samples and n_features is the number of features.
+    y : ndarray, shape (n_samples,)
+        Labels.
+
+    Returns
+    -------
+    theta : ndarray, shape (n_features,)
+        The closed-form solution to linear regression using the normal equations.
+    """
+    theta = np.linalg.pinv(X.T.dot(X)).dot(X.T).dot(y)
+    return theta
+
+theta = normal_eqn(X, y)
+print 'Theta computed from the normal equations: '
+print theta
+
+price = np.array([1, 1650, 3]).dot(theta)
+print 'Predicted price of a 1650 sq-ft, 3 br house (using normal equations):', int(price)
